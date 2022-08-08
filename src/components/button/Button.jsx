@@ -1,6 +1,8 @@
+import s from './Button.module.css';
+
 const Button = ({ onFetch }) => {
   return (
-    <button onClick={onFetch} type="button">
+    <button className={s.button} onClick={onFetch} type="button">
       Load more
     </button>
   );

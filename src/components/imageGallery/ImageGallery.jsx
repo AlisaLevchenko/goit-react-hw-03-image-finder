@@ -1,8 +1,9 @@
 import ImageGalleryItem from '../imageGalleryItem/ImageGalleryItem';
+import s from './ImageGallery.module.css';
 
 const ImageGallery = ({ photos }) => {
   return (
-    <ul className="gallery">
+    <ul className={s.imageGallery}>
       {photos.map(photo => (
         <ImageGalleryItem
           key={photo.id}
