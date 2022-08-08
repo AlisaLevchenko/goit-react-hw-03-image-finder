@@ -4,3 +4,9 @@
   grid-gap: 16px;
   padding-bottom: 24px;
 }
+
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

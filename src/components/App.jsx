@@ -4,6 +4,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import Searchbar from './searchbar/Searchbar';
 import ImageGallery from './imageGallery/ImageGallery';
 import Button from './button/Button';
+import s from 'components/App.module.css';
 
 const API_KEY = '29075157-7bb5c5ac82b024e7bc90995e8';
 
@@ -19,7 +20,6 @@ class App extends Component {
   fetchPhotos = () => {
     const { q } = this.state;
     this.setState({ page: 1 });
-    // this.setState({ loading: true });
     return fetch(
       `https://pixabay.com/api/?q=${q}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
     )
@@ -54,7 +54,6 @@ class App extends Component {
 
   fetchMorePhotos = () => {
     const { q, page } = this.state;
-    this.setState({ loading: true });
     return fetch(
       `https://pixabay.com/api/?q=${q}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
     )
@@ -77,16 +76,18 @@ class App extends Component {
       })
       .catch(error => {
         throw error;
-      });
+      })
+      .finally(() => this.setState({ loading: false }));
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.q !== this.state.q) {
-      this.setState({ loading: true });
+      this.setState({ loading: true, photos: [], showLoadMore: false });
+
       this.fetchPhotos();
     }
     if (prevState.page !== this.state.page && this.state.page !== 1) {
-      // this.setState({ loading: true });
+      this.setState({ loading: true, showLoadMore: false });
       this.fetchMorePhotos();
     }
   }
@@ -98,11 +99,11 @@ class App extends Component {
   render() {
     const { photos, showLoadMore, loading } = this.state;
     return (
-      <>
+      <div className={s.app}>
         <Searchbar onSubmit={this.handleFormSubmit} />
-
+        <ImageGallery photos={photos} />
         {loading && (
-          <div>
+          <div className={s.dots}>
             <ThreeDots
               color="#5d8aa8"
               height={100}
@@ -112,9 +113,8 @@ class App extends Component {
           </div>
         )}
 
-        <ImageGallery photos={photos} />
         {showLoadMore && <Button onFetch={this.handleLoadMore} />}
-      </>
+      </div>
     );
   }
 }

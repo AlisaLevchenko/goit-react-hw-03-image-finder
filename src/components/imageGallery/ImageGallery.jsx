@@ -1,5 +1,6 @@
 import ImageGalleryItem from '../imageGalleryItem/ImageGalleryItem';
 import s from './ImageGallery.module.css';
+import PropTypes from 'prop-types';
 
 const ImageGallery = ({ photos }) => {
   return (
@@ -14,4 +15,9 @@ const ImageGallery = ({ photos }) => {
     </ul>
   );
 };
+
+ImageGallery.propTypes = {
+  photos: PropTypes.array.isRequired,
+};
+
 export default ImageGallery;
